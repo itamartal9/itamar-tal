@@ -1,8 +1,20 @@
 import turtle
 import math
 import random
-import time
 import classes
+from pygame import mixer
+import time
+import winsound
+
+
+
+# Starting the mixer
+mixer.init()
+
+
+# Setting the volume
+mixer.music.set_volume(0.5)
+
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -245,11 +257,6 @@ wn.tracer(0)
 
 
 
-
-
-
-
-
 class Sprite():
     # Constructor
     def __init__(self, x, y, shape, color):
@@ -352,7 +359,7 @@ class Sprite():
 
         pen.penup()
 
-        round = player.score
+
 
         def curve():
             for i in range(200):
@@ -417,6 +424,13 @@ class Player(Sprite):
                 num_of_missiles += 1
 
         print(num_of_missiles)
+        if True:
+            mixer.music.pause()
+            mixer.music.load("C:\\Users\\itama\\Downloads\\8bit Gun Shots Sound Effect Retro Games Soundholder-[AudioTrimmer.com].mp3")
+            mixer.music.play()
+
+
+
 
         # 1 missile ready
         if num_of_missiles == 1:
@@ -437,6 +451,7 @@ class Player(Sprite):
             for missile in missiles:
                 if missile.state == "ready":
                     missile.fire(self.x, self.y, self.heading + directions.pop(), self.dx, self.dy)
+
 
     def update(self):
         if self.state == "active":
@@ -710,7 +725,6 @@ def restart():
     wn.clear()
 
 
-
 # Create game object
 game = Game(700, 500)
 
@@ -731,6 +745,7 @@ for _ in range(3):
 enemy_missiles = []
 for _ in range(1):
     enemy_missiles.append(EnemyMissile(0, 100, "circle", "red"))
+
 
 # Sprites list
 sprites = []
@@ -753,6 +768,7 @@ wn.onkeypress(player.fire, "space")
 
 wn.onkeypress(game.start, "s")
 wn.onkeypress(game.start, "S")
+
 
 
 # Main Loop
@@ -833,7 +849,10 @@ while True:
 
 
 
-    if player.lives == 0:
+    if player.lives == 2:
+        mixer.music.pause()
+        mixer.music.load("C:\\Users\\itama\\Downloads\\Retro Game Over Sound Effect.mp3")
+        mixer.music.play()
 
         wn.clear()
         wn.clearscreen()
@@ -841,7 +860,6 @@ while True:
         wn1.bgcolor('black')
         write.color('red')
         style = ('ariel', 100, 'normal')
-
         write.penup()
         write.color('red')
         write.hideturtle()
@@ -852,6 +870,5 @@ while True:
 
         wn.reset()
         break
-
 
 wn.exitonclick()
